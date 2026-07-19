@@ -1,5 +1,6 @@
+#creating cluster using eksctl, this is the configuration file for creating cluster using eksctl
 apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
+kind: ClusterConfig 
 
 metadata:
   name: expense
