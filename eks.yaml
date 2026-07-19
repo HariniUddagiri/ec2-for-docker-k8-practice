@@ -8,7 +8,7 @@ metadata:
 
 managedNodeGroups:
   - name: expense
-    instanceTypes: ["m5.large", "c3.large","c4.large","c5.large"] #making sure that we are using different instance types under spot instances, so that if one instance type is not available, it will use other instance types
-    desiredCapacity: 3
-    spot: true 
+    instanceTypes: ["t3.medium"] #making sure that we are using different instance types under spot instances, so that if one instance type is not available, it will use other instance types
+    desiredCapacity: 2
+    spot: false 
     #using spot instances to reduce cost, if spot instances are not available, it will use on-demand instances
