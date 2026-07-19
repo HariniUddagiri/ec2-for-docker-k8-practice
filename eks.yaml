@@ -1,4 +1,4 @@
-#creating cluster using eksctl, this is the configuration file for creating cluster using eksctl
+#creating cluster using eksctl, this is the configuration file for creating cluster using eksctl, once we run eksctl create cluster -f eks.yaml, it will create a cluster with the name expense in the region us-east-1 with 3 spot instances of different instance types, if spot instances are not available, it will use on-demand instances
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig 
 
