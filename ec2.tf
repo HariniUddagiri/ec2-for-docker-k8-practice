@@ -1,7 +1,8 @@
 resource "aws_instance" "this" {
-  ami                    = "ami-00adafae70b8029d8" # This is our devops-practice AMI ID
+  ami                    = "ami-01edba92f9036f76e" 
   vpc_security_group_ids = [aws_security_group.allow_all_docker.id]
   instance_type          = "t3.micro"
+    key_name               = "docker-practice"
 
   # 20GB is not enough
   root_block_device {
