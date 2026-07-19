@@ -1,16 +1,19 @@
 user_data = <<-EOF
 #!/bin/bash
+set -e
+
+# Log user-data execution
+exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&1
+
 
 # Disk expansion
 dnf install cloud-utils-growpart -y
 
-growpart /dev/nvme0n1 4
+# Check and expand root partition
+growpart /dev/nvme0n1 1 || true
 
-lvextend -l +50%FREE /dev/RootVG/rootVol
-lvextend -l +50%FREE /dev/RootVG/varVol
-
-xfs_growfs /
-xfs_growfs /var
+# Expand XFS filesystem
+xfs_growfs / || true
 
 
 # Update packages
@@ -30,6 +33,7 @@ usermod -aG docker ec2-user
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/linux/amd64/kubectl
 
 chmod +x kubectl
+
 mv kubectl /usr/local/bin/kubectl
 
 
@@ -52,5 +56,12 @@ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scrip
 chmod 700 get_helm.sh
 
 ./get_helm.sh
+
+
+# Verify installations
+docker --version
+kubectl version --client
+eksctl version
+helm version
 
 EOF
