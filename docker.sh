@@ -1,10 +1,8 @@
-user_data = <<-EOF
 #!/bin/bash
 set -e
 
 # Log user-data output
 exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&1
-
 
 echo "Starting EC2 setup"
 
@@ -15,7 +13,7 @@ echo "Starting EC2 setup"
 
 dnf install cloud-utils-growpart -y
 
-# Expand root partition (Amazon Linux 2023 normally uses partition 1)
+# Amazon Linux 2023 root partition
 growpart /dev/nvme0n1 1 || true
 
 # Expand XFS filesystem
@@ -85,5 +83,3 @@ helm version
 
 
 echo "EC2 setup completed"
-
-EOF
