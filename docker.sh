@@ -8,12 +8,19 @@ lvextend -l +50%FREE /dev/RootVG/varVol
 xfs_growfs /
 xfs_growfs /var
 
-dnf -y install dnf-plugins-core
-dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
-dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-systemctl start docker
+user_data = <<-EOF
+#!/bin/bash
+
+dnf update -y
+
+dnf install docker -y
+
 systemctl enable docker
+systemctl start docker
+
 usermod -aG docker ec2-user
+
+EOF
 
 #kubectl installation
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/linux/amd64/kubectl
